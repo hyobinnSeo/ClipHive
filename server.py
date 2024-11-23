@@ -30,9 +30,11 @@ def download_video():
 
         # Download the video
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-            ydl.download([url])
-
-        return jsonify({'message': 'Download successful'}), 200
+            try:
+                ydl.download([url])
+                return jsonify({'message': 'Download successful'}), 200
+            except yt_dlp.utils.DownloadError as e:
+                return jsonify({'error': str(e)}), 400
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500

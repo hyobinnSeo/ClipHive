@@ -78,6 +78,7 @@
             padding: 1rem;
             border-radius: 5px;
             display: none;
+            word-break: break-all;
         }
 
         .success {
@@ -127,8 +128,10 @@
                     body: JSON.stringify({ url: videoUrl, format: format })
                 });
 
+                const data = await response.json();
+                
                 if (!response.ok) {
-                    throw new Error('Download failed');
+                    throw new Error(data.error || 'Download failed');
                 }
 
                 showStatus('Download started! Check your downloads folder.', 'success');
